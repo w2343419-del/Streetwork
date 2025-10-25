@@ -9,7 +9,6 @@ int main()
     {
         printf("error\n");
         return 0;
-
     }
 
     else
