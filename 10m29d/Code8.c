@@ -30,27 +30,19 @@ int main(){
     int len = 0;
     char c;
     
-    // 逐字符读取直到EOF
     while((c = getchar()) != EOF && len < 1000){
         str[len++] = c;
     }
     str[len] = '\0';
-    
-    // 处理字符串
     int i = 0, j = 0;
-    // 跳过开头的空白字符
     while(str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\r'){
         i++;
     }
-    
-    // 处理剩余字符
     while(str[i] != '\0'){
         if(str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\r'){
-            // 跳过所有连续的空白字符
             while(str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\r'){
                 i++;
             }
-            // 如果不是字符串末尾，添加一个空格
             if(str[i] != '\0'){
                 str[j++] = ' ';
             }
@@ -60,8 +52,6 @@ int main(){
         }
     }
     str[j] = '\0';
-    
-    // 输出处理后的字符串
     int k = 0;
     while(str[k] != '\0'){
         putchar(str[k]);

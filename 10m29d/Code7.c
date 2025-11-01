@@ -25,17 +25,42 @@ Rhythm
 
 0*/
 #include <stdio.h>
-int main (){
-    char n[1001];
-    char output[1001];
-    int count = 0;
-    char ch;
+int main () {
+    char c[1001];
+    int i = 0;
     
-    while ( (ch = getchar()) != '\n'){
-        
+    char ch;
+    while ((ch = getchar()) != '\n' && i < 1000) {
+        c[i] = ch;
+        i++;
+    }
+    c[i] = '\0';
+    
+    char vowels[1001];
+    int vowel_count = 0;
+    
+    int j = 0;
+    while (j < i) {
+        if (c[j] == 'a' || c[j] == 'e' || c[j] == 'i' || c[j] == 'o' || c[j] == 'u') {
+            vowels[vowel_count] = c[j];
+            vowel_count++;
+        } else if (c[j] == 'A' || c[j] == 'E' || c[j] == 'I' || c[j] == 'O' || c[j] == 'U') {
+            vowels[vowel_count] = c[j] + 32;
+            vowel_count++;
+        }
+        j++;
     }
 
-    
-
-
+    if ( vowel_count == 0 ){
+        printf("0\n");
+    } else {
+        for ( int k = 0; k < vowel_count; k++) {
+            if (k > 0) printf("-");
+            printf("%c", vowels[k]);
+        }
+        printf ("-%d", vowel_count);
+    }
+    return 0;
 }
+
+
