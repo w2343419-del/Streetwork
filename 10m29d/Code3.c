@@ -22,7 +22,7 @@
 
 */
 #include <stdio.h>
-int main(){
+int main() {
     int n;
     double sum = 0.0;
     scanf("%d", &n);
@@ -33,7 +33,7 @@ int main(){
         scanf("%d", &a);
         
         for ( int j = 1; j <= a; j++){
-            sum =sum +j/(j+1.0);
+            sum = sum + j / ( j + 1.0 );
         }
         
         printf ("%.4lf\n", sum);

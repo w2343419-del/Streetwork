@@ -21,20 +21,20 @@ No
 */
 #include <stdio.h>
 #include <math.h>
-int main(){
+int main() {
     int n;
     int a, b, c, max, mid, min;
     double d, e;
-    scanf("%d", &n);
+    scanf ("%d", &n);
     
-    for (int i = 0; i<n; i++){
-        scanf("%d %d %d", &a, &b, &c);
+    for ( int i = 0; i<n; i++ ) {
+        scanf ("%d %d %d", &a, &b, &c);
     
         
-        if(a <= 0 || b <= 0 || c <= 0){
-            printf("No\n");
-        }else if(a+b <= c || a+c <= b || b+c <= a) {
-            printf("No\n");
+        if( a <= 0 || b <= 0 || c <= 0 ) {
+            printf ("No\n");
+        } else if (a+b <= c || a+c <= b || b+c <= a) {
+            printf ("No\n");
         } else {
             if (a >= b) {
                 max = a; min = b;
@@ -49,7 +49,7 @@ int main(){
             } else {
                 max = b; min = a;
 
-                if(c >= max){
+                if (c >= max) {
                     max = c; mid = b; min = a;
                 } else if (c <= min) {
                     max = b; mid = a; min = c;
@@ -58,14 +58,14 @@ int main(){
                 }
             }
 
-        d = pow(max, 2);
-        e = pow(min, 2)+pow(mid, 2);
+            d = pow ( max, 2 );
+            e = pow ( min, 2 ) + pow ( mid, 2 );
 
-        if (d == e) {
-            printf("Yes\n");
-        } else {
-            printf("No\n");
-        }
+            if ( d == e ) {
+                printf ("Yes\n");
+            } else {
+                printf ("No\n");
+            }
         }
     }
     

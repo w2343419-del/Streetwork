@@ -25,7 +25,7 @@
 */
 #include <stdio.h>
 int main() {
-    int m, n, j;
+    int m, n;
     double sum = 0.0000;
     scanf ( "%d", &m );
 
@@ -33,9 +33,9 @@ int main() {
         scanf ( "%d", &n );
         sum = 0.0000;
         
-        for ( j = 1; j <= n; j++ ) {
-            if ( (j%2) == 0 ) {
-                sum += (1.0/j);
+        for ( int j = 1; j <= n; j++ ) {
+            if ( ( j % 2 ) == 0 ) {
+                sum = sum + ( 1.0 / j );
             }
         }
         printf ("%.4lf\n", sum);
