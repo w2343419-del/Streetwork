@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     char play_again;
     
     do {
