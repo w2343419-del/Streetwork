@@ -46,8 +46,7 @@ int main() {
                 bOK = 1;
                 break;
             } 
-        }
-        if(bOK == 0) {
+        } if(bOK == 0) {
         printf("Impossible\n");
         }
     }
