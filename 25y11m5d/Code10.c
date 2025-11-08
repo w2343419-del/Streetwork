@@ -19,13 +19,13 @@ int main(){
     int n;
     scanf("%d", &n);
  
-    for (int i = 0; i < n; i++){
-    int a, b, c;
-    scanf("%d %d %d ", &a, &b, &c);
-    printf ("%d.", a / b);
- 
-    int d = a % b;
-    for (int j= 0; j < c; j++){
+    for (int i = 1; i <= n; i++){
+        int a, b, c;
+        scanf("%d %d %d", &a, &b, &c);
+        printf ("%d.", a / b);
+        
+        int d = a % b;
+        for (int j = 0; j < c; j++){
             d = d * 10;
             int e = d / b;
             printf ("%d", e);
