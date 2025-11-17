@@ -24,6 +24,29 @@
 
 -213*/
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 int main() {
+    int n;
+    scanf("%d", &n);
+
+    char s[33];
+    sprintf(s, "%d", n);
+
+    int start_index = 0;
+    if (s[0] == '-') {
+        start_index = 1;
+    }
+
+    int len = strlen(s);
+    for (int i = start_index; i < len - 1; i += 2){
+        char temp = s[i];
+        s[i] = s[i + 1];
+        s[i + 1] = temp;
+    }
+
+    int result = atoi(s);
     
+    printf ("%d", result);
+    return 0;
 }
