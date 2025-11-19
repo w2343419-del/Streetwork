@@ -19,25 +19,25 @@ int main() {
     int n;
     scanf("%d", &n);
     for (int i = 0; i < n; i++) {
-        int m;
+        int m, a[m], count = 0;
         scanf("%d", &m);
-        int a[m];
-        int count = 0;
         
         for (int j = 0; j < m; j++) {
             scanf("%d", &a[j]);
+            
             if (a[j] != 0) {
                 printf("%d ", a[j]);
             } else {
                 count++;
             }
         }
+        
         for (int j = 0; j < count; j++) {
             printf ("0 ");
         }
+        
         printf("\n");
-    }
+    }    
     
     return 0;
-
 }
