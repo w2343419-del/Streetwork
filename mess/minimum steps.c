@@ -10,8 +10,12 @@ void dsf(int x, int y, int step) {
     if (x == p && y == q) {
         if (step < min_step) {
             min_step = step;
-            return;
         }
+        return;
+    }
+
+    if (step >= min_step) {
+        return;
     }
 
     for (int i = 0; i < 4; i++) {
@@ -25,7 +29,6 @@ void dsf(int x, int y, int step) {
             v[tx][ty] = 0;
         }
     }
-
 }
 
 int main() {
@@ -41,7 +44,12 @@ int main() {
     scanf("%d%d%d%d", &startx, &starty, &p, &q);
     v[startx][starty] = 1;
     dsf(startx, starty, 0);
-    printf("%d\n", min_step);
+    
+    if (min_step == 999999999) {
+        printf("-1\n");
+    } else {
+        printf("%d\n", min_step);
+    }
 
     return 0;
 }
