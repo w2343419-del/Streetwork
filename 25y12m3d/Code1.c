@@ -47,4 +47,5 @@ int main() {
 
     }
     printf("%d", res - 1);
+    return 0;
 }
