@@ -28,7 +28,6 @@ int main() {
     scanf("%d %d", &m, &n);
     
     int a[m + n], b[n];
-    
 
     for (int i = 0; i < m; i++) {
         scanf("%d", &a[i]);
