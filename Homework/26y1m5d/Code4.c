@@ -42,8 +42,29 @@ WangwangdoyouthinkthattalkingtoWangwangaboutthingsrelatedtoananisenough
 对于 60% 的数据，c 的长度不超过1000个字符，x 的长度不超过10个字符，y 的长度不超过100个字符。
 对于 100% 的数据，c 的长度不超过10000个字符，x 的长度不超过10个字符，y 的长度不超过1000个字符。*/
 
+/**
+ * @brief 字符串替换 - "海王自动转发机"
+ * 
+ * 算法思路：
+ * 1. 从左到右扫描字符串c
+ * 2. 每次找到子串x，就进行替换操作
+ * 3. 根据x和y的长度关系，分三种情况处理：
+ *    - len_y < len_x: 需要向前移动后续字符（收缩）
+ *    - len_y == len_x: 直接覆盖
+ *    - len_y > len_x: 需要向后移动后续字符（扩展）
+ * 
+ * 注意事项：
+ * - 替换后需要更新字符串长度和扫描位置
+ * - 数组大小需要足够大以容纳扩展后的字符串
+ * - 最坏情况：10000个字符，每个都替换成1000字符，需要很大空间
+ * 
+ * 时间复杂度：O(len_c * 出现次数 * max(len_x, len_y))
+ * 空间复杂度：O(len_c * len_y)
+ */
+
 #include <stdio.h>
 #include <string.h>
+
 int main() {
     char c[99999], x[11], y[1001];
     scanf("%s", c);
@@ -54,38 +75,49 @@ int main() {
     int len_x = strlen(x);
     int len_y = strlen(y);
 
+    // 遍历字符串c，查找并替换所有x
     for (int i = 0; i < len_c; i++) {
+        // 检查当前位置是否匹配子串x
         if (strncmp(&c[i], x, len_x) == 0) {
+            // 情况1：y比x短，需要收缩
             if (len_y < len_x) {
+                // 先用y覆盖前len_y个字符
                 for (int j = i; j < i + len_y; j++) {
                     c[j] = y[j - i];
                 }
+                // 将后续字符向前移动
                 for (int j = i + len_y; j < len_c - (len_x - len_y); j++) {
                     c[j] = c[j + (len_x - len_y)];
                 }
-                len_c -= (len_x - len_y);
-                i += len_y - 1;
+                len_c -= (len_x - len_y);  // 更新字符串长度
+                i += len_y - 1;  // 跳过已替换部分（-1是因为循环会i++）
             }
+            // 情况2：y和x长度相同，直接覆盖
             else if (len_y == len_x) {
                 for (int j = 0; j < len_y; j++) {
                     c[i + j] = y[j];
                 }
-            } else {
+            }
+            // 情况3：y比x长，需要扩展
+            else {
+                // 先将后续字符向后移动，腾出空间
                 for (int j = len_c - 1; j >= i + len_x; j--) {
                     c[j + (len_y - len_x)] = c[j];
                 }
+                // 用y覆盖
                 for (int j = 0; j < len_y; j++) {
                     c[i + j] = y[j];
                 }
-                len_c += (len_y - len_x);
-                i += len_y - 1;
+                len_c += (len_y - len_x);  // 更新字符串长度
+                i += len_y - 1;  // 跳过已替换部分
             }
         }
     }
 
-    c[len_c] = '\0';
+    c[len_c] = '\0';  // 添加字符串结束符
     printf("%s\n", c);
     return 0;
 }
-//注：当对原数组进行扩展时，若将数组大小定为10001，极有可能导致扩展后数组越界，故将数组大小定为99999。
-//（虽然题目中说c的长度不超过10000个字符，x的长度不超过10个字符，y的长度不超过1000个字符，但为了保险起见，还是定大一些）
+
+// 注：当对原数组进行扩展时，若将数组大小定为10001，极有可能导致扩展后数组越界，故将数组大小定为99999。
+// （虽然题目中说c的长度不超过10000个字符，x的长度不超过10个字符，y的长度不超过1000个字符，但为了保险起见，还是定大一些）

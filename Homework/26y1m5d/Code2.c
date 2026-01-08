@@ -27,6 +27,22 @@ abcdhbaghba ab
 输出
 7*/
 
+/**
+ * @brief 检测字符串S2在S1中的对称出现，并输出最大对称间隔
+ * 
+ * 算法思路：
+ * 1. 生成S2的反串
+ * 2. 在S1中从左向右找S2的第一次出现位置
+ * 3. 在S1中从右向左找S2反串的最后一次出现位置
+ * 4. 计算间隔 = S2反串起始位置 - (S2起始位置 + S2长度)
+ * 
+ * 对称间隔定义：
+ * S2正串结束位置到S2反串开始位置之间的距离
+ * 
+ * 时间复杂度：O(len1 * len2)
+ * 空间复杂度：O(len2)
+ */
+
 #include <stdio.h>
 #include <string.h>
 
@@ -36,6 +52,8 @@ int main() {
 
     int len1 = strlen(S1);
     int len2 = strlen(S2);
+    
+    // 生成S2的反串
     char S2_rev[11];
     for (int i = 0; i < len2; i++) {
         S2_rev[i] = S2[len2 - i - 1];
@@ -44,6 +62,7 @@ int main() {
 
     int pos_S2 = -1, pos_S2_rev = -1;
 
+    // 从左向右找S2的第一次出现
     for (int i = 0; i <= len1 - len2; i++) {
         if (strncmp(&S1[i], S2, len2) == 0) {
             pos_S2 = i;
@@ -51,6 +70,7 @@ int main() {
         }
     }
 
+    // 从右向左找S2反串的最后一次出现
     for (int j = len1 - len2; j >= 0; j--) {
         if (strncmp(&S1[j], S2_rev, len2) == 0) {
             pos_S2_rev = j;
@@ -58,7 +78,9 @@ int main() {
         }
     }
 
+    // 检查是否找到对称出现（S2正串必须在反串前面）
     if (pos_S2 != -1 && pos_S2_rev != -1 && pos_S2_rev > pos_S2) {
+        // 计算对称间隔：反串起始位置 - 正串结束位置
         printf("%d\n", pos_S2_rev - (pos_S2 + len2));
     } else {
         printf("no\n");

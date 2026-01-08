@@ -82,6 +82,7 @@ int main() {
     int m, n;
     scanf("%d %d", &m, &n);
 
+    // 读取图像数据
     int image[m][n];
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
@@ -89,6 +90,7 @@ int main() {
         }
     }
     
+    // 统计每个灰度级出现的次数
     int count[64] = {0};
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
@@ -96,24 +98,29 @@ int main() {
         }
     }
 
+    // 计算灰度映射关系
     int mapping[64];
     int total_pixels = m * n;
-    double cumulative = 0.0;
+    double cumulative = 0.0;  // 累计分布概率
     
     for (int gray = 0; gray < 64; gray++) {
         if (count[gray] > 0) {
+            // 计算当前灰度的分布概率
             double probability = (double)count[gray] / total_pixels;
+            // 累加到累计分布
             cumulative += probability;
+            // 计算映射灰度值（累计分布 * 最大灰度值63，四舍五入）
             mapping[gray] = (int)round(cumulative * 63);
         }
     }
 
+    // 输出均衡化后的图像
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
-            if (j > 0) printf(" ");
-            printf("%d", mapping[image[i][j]]);
+            if (j > 0) printf(" ");  // 列之间用空格分隔
+            printf("%d", mapping[image[i][j]]);  // 输出映射后的灰度值
         }
-        printf("\n");
+        printf("\n");  // 换行
     }
     
     return 0;
