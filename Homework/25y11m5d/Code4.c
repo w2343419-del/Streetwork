@@ -29,66 +29,35 @@ print
 
   *
 */
-/**
- * @brief 打印菱形
- * 
- * 算法思路：
- * 1. 检查n是否为奇数
- * 2. 上半部分：从1个n，每次+2
- * 3. 下半部分：从n-2到1，每次-2
- * 4. 每行先输出空格，再输出*
- * 
- * 空格数 = (n - 当前行*数) / 2
- * 
- * 时间复杂度：O(n²)
- * 空间复杂度：O(1)
- */
-
 #include <stdio.h>
-
-int main() {
+int main(){
     int n, a;
     scanf("%d", &n);
     
-    for (int i = 1; i <= n; i++) {
+    for( int i = 1; i <= n; i++){
         scanf("%d", &a);
-        
-        // 检查是否为奇数
-        if (a % 2 == 0 || a <= 0) {
-            printf("error\n");
+        if (a % 2 == 0) {
+            printf("error");
         } else {
             printf("print\n");
-            
-            // 上半部分：1, 3, 5, ..., a
-            for (int row = 1; row <= a; row += 2) {
-                // 输出空格
-                for (int j = 1; j <= (a - row) / 2; j++) {
+            for (int i = 1; i <= a; i += 2) {
+                for (int j = 1; j <= (a - i) / 2; j++){
                     printf(" ");
                 }
-                // 输出*
-                for (int j = 1; j <= row; j++) {
+                for (int j = 1; j <= i; j++) {
                     printf("*");
                 }
                 printf("\n");
             }
-            
-            // 下半部分：a-2, a-4, ..., 1
-            for (int row = a - 2; row >= 1; row -= 2) {
-                // 输出空格
-                for (int j = 1; j <= (a - row) / 2; j++) {
+            for (int i = a - 2; i >= 1; i -= 2) {
+                for (int j = 1; j <= (a - i) / 2; j++){
                     printf(" ");
                 }
-                // 输出*
-                for (int j = 1; j <= row; j++) {
+                for (int j = 1; j <= i; j++) {
                     printf("*");
                 }
                 printf("\n");
             }
-        }
-    }
-    
-    return 0;
-}
         }
     }
     return 0;

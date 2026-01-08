@@ -26,41 +26,23 @@
 
 -1
 */
-/**
- * @brief 冰雹猜想(Collatz猜想)
- * 
- * 算法思路：
- * 1. 偶数 → n/2
- * 2. 奇数 → 3n+1
- * 3. 计数步骤，直到n=1或超过10步
- * 
- * 注意：这是一个著名的数学未解问题
- * 
- * 时间复杂度：O(log n) 平均情况
- * 空间复杂度：O(1)
- */
-
 #include <stdio.h>
-
-int main() {
-    int n;
+int main(){
+    int n, i;
     scanf("%d", &n);
-    
-    int steps;
-    for (steps = 0; steps <= 10; steps++) {
-        if (n == 1) {
-            printf("%d\n", steps);
-            return 0;
+    for(i = 0; i <= 10; i++){
+        if(n == 1){
+            printf("%d", i);
+            break;
         }
-        
-        if (n % 2 == 0) {
+        if(n % 2 == 0){
             n = n / 2;
-        } else {
+        }
+        else{
             n = 3 * n + 1;
         }
     }
-    
-    // 超过10步仍未到达1
-    printf("-1\n");
-    return 0;
+    if(i > 10){
+        printf("-1");
+    }
 }

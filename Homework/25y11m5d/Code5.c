@@ -22,25 +22,7 @@
 1 3 1
 2 1 2
 */
-/**
- * @brief 枢举求解 - 男女小孩就餐问题
- * 
- * 算法思路：
- * 三重循环枢举所有可能的组合：
- * - a: 男人数 (0 ~ x)
- * - b: 女人数 (0 ~ x-a)
- * - c: 小孩数 = x - a - b
- * 
- * 约束条件：
- * - a + b + c = x
- * - 3a + 2b + c = y
- * 
- * 时间复杂度：O(n * x²)
- * 空间复杂度：O(1)
- */
-
 #include <stdio.h>
-
 int main() {
     int n, x, y;
     scanf("%d", &n);
@@ -48,18 +30,18 @@ int main() {
     for (int i = 0; i < n; i++) {
         scanf("%d %d", &x, &y);
 
-        // 枢举男人数
-        for (int men = 0; men <= x; men++) {
-            // 枢举女人数
-            for (int women = 0; women <= x - men; women++) {
-                int children = x - men - women;
+        for (int a = 0; a <= x; a++) {
+
+            for (int b = 0; b <= x - a; b++) {
                 
-                // 检查是否满足花费条件
-                if (3 * men + 2 * women + children == y) {
-                    printf("%d %d %d\n", men, women, children);
+                int c = x - a - b;
+                
+                if (3 * a + 2 * b + c == y) {
+                    printf("%d %d %d\n", a, b, c);
                 }
             }
         }
+        
     }
 
     return 0;

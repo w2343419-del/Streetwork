@@ -1,64 +1,71 @@
-/**
- * @brief 判断是否为直角三角形
- * 
- * 算法思路：
- * 1. 验证三边能构成三角形（三边不等式）
- * 2. 找出三边的最大值、中间值、最小值
- * 3. 验证勾股定理：a² + b² = c²
- * 
- * 优化点：
- * - 使用简单的排序逻辑替代复杂的if-else
- * - 用乘法替代pow函数（整数运算更快）
- * - 避免浮点数比较
- * 
- * 时间复杂度：O(n)
- * 空间复杂度：O(1)
- */
+/*
+描述
+输入三角形的3条边长， 判断三角形是否是直角三角形。
 
+输入
+第1行是一个整数n，表示随后有n组数据。每组数据占一行，包含3个整数代表3条边长(每个整数的平方能够用32位整数表示)，用空格分隔。
+
+输出
+每组输出占一行，如果是直角三角形输出Yes，不是则输出No。
+
+样例
+输入
+
+2
+3 4 5   
+3 5 7
+输出
+
+Yes
+No
+*/
 #include <stdio.h>
-
-// 交换两个整数
-void swap(int *x, int *y) {
-    int temp = *x;
-    *x = *y;
-    *y = temp;
-}
-
+#include <math.h>
 int main() {
     int n;
-    scanf("%d", &n);
+    int a, b, c, max, mid, min;
+    double d, e;
+    scanf ("%d", &n);
     
-    for (int i = 0; i < n; i++) {
-        int sides[3];
-        scanf("%d %d %d", &sides[0], &sides[1], &sides[2]);
+    for ( int i = 0; i<n; i++ ) {
+        scanf ("%d %d %d", &a, &b, &c);
+    
         
-        // 检查边长是否有效
-        if (sides[0] <= 0 || sides[1] <= 0 || sides[2] <= 0) {
-            printf("No\n");
-            continue;
-        }
-        
-        // 检查三边不等式
-        if (sides[0] + sides[1] <= sides[2] || 
-            sides[0] + sides[2] <= sides[1] || 
-            sides[1] + sides[2] <= sides[0]) {
-            printf("No\n");
-            continue;
-        }
-        
-        // 简单排序：确保 sides[0] >= sides[1] >= sides[2]
-        if (sides[0] < sides[1]) swap(&sides[0], &sides[1]);
-        if (sides[0] < sides[2]) swap(&sides[0], &sides[2]);
-        if (sides[1] < sides[2]) swap(&sides[1], &sides[2]);
-        
-        // 勾股定理验证（避免浮点运算，使用整数乘法）
-        long long max_sq = (long long)sides[0] * sides[0];
-        long long sum_sq = (long long)sides[1] * sides[1] + (long long)sides[2] * sides[2];
-        
-        if (max_sq == sum_sq) {
-            printf("Yes\n");
+        if( a <= 0 || b <= 0 || c <= 0 ) {
+            printf ("No\n");
+        } else if (a+b <= c || a+c <= b || b+c <= a) {
+            printf ("No\n");
         } else {
-            printf("No\n");
+            if (a >= b) {
+                max = a; min = b;
+                
+                if (c >= max) {
+                    max = c; mid = a; min = b;
+                } else if (c <= min) {
+                    max = a; mid = b; min = c;
+                } else {
+                    max = a; mid = c; min = b;
+                }
+            } else {
+                max = b; min = a;
+
+                if (c >= max) {
+                    max = c; mid = b; min = a;
+                } else if (c <= min) {
+                    max = b; mid = a; min = c;
+                } else {
+                    max = b; mid = c; min = a;
+                }
+            }
+
+            d = pow ( max, 2 );
+            e = pow ( min, 2 ) + pow ( mid, 2 );
+
+            if ( d == e ) {
+                printf ("Yes\n");
+            } else {
+                printf ("No\n");
+            }
         }
     }
     
