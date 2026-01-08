@@ -31,25 +31,46 @@
 16
 Impossible
 83*/
+/**
+ * @brief 韩信点兵 - 中国剩余定理应用
+ * 
+ * 算法思路：
+ * 1. 枢举10-100之间的所有数字
+ * 2. 检查是否同时满足三个条件：
+ *    - num % 3 == a
+ *    - num % 5 == b
+ *    - num % 7 == c
+ * 3. 找到则输出，未找到输出Impossible
+ * 
+ * 注意：根据中国剩余定理，这个问题在给定范围内有唯一解或无解
+ * 
+ * 时间复杂度：O(n)，n为查询次数
+ * 空间复杂度：O(1)
+ */
+
 #include <stdio.h>
+
 int main() {
-    int n, a, b, c, i, sum;
+    int n, a, b, c;
     scanf("%d", &n);
 
-    for(i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         scanf("%d %d %d", &a, &b, &c);
-        int bOK = 0;
+        int found = 0;
         
-        for(sum = 10; sum < 100; sum++){
-            if (sum % 3 == a && sum % 5 == b && sum % 7 == c){
-                printf("%d\n", sum);
-                bOK = 1;
+        // 枢举10-100之间的所有数
+        for (int num = 10; num <= 100; num++) {
+            if (num % 3 == a && num % 5 == b && num % 7 == c) {
+                printf("%d\n", num);
+                found = 1;
                 break;
-            } 
-        } if(bOK == 0) {
-        printf("Impossible\n");
+            }
+        }
+        
+        if (!found) {
+            printf("Impossible\n");
         }
     }
+    
     return 0;
-
 }

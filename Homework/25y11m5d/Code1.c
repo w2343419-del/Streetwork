@@ -26,17 +26,36 @@
 输出
 
 1*/
+/**
+ * @brief 找到最大的n使得 1²+2²+..+n² < m
+ * 
+ * 算法思路：
+ * 1. 从1开始逐个计算平方和
+ * 2. 当 sum + (n+1)² >= m 时停止
+ * 3. 返回n
+ * 
+ * 数学公式：1²+2²+..+n² = n(n+1)(2n+1)/6
+ * 但这里使用迭代更简单且避免溢出
+ * 
+ * 时间复杂度：O(√m)
+ * 空间复杂度：O(1)
+ */
+
 #include <stdio.h>
+
 int main() {
     unsigned int m;
-    scanf ("%u", &m);
+    scanf("%u", &m);
 
     unsigned int n = 0;
-    unsigned long long int sum = 0;
-    while (sum + ( n + 1 ) * ( n + 1 ) < m) {
+    unsigned long long sum = 0;
+    
+    // 迭代查找，直到再加下一个平方数就会 >= m
+    while (sum + (n + 1) * (n + 1) < m) {
         n++;
-        sum = sum + n * n;
+        sum += n * n;
     }
-    printf ("%u\n", n);
+    
+    printf("%u\n", n);
     return 0;
 }
