@@ -1,54 +1,35 @@
-/*描述
-输入一个字符 ch。
-若 ch 为小写字母，输出对应大写字母及其 ASCII 码；
-若 ch 为大写字母，输出对应小写字母及其 ASCII 码；
-对于其它字符，原样输出该字符及其 ASCII 码。
+/**
+ * @brief 字符大小写转换及ASCII码输出
+ * 
+ * 算法思路：
+ * 1. 检查是否为小写字母 (a-z)：转大写，ASCII-32
+ * 2. 检查是否为大写字母 (A-Z)：转小写，ASCII+32
+ * 3. 其他字符原样输出
+ * 
+ * 优化点：移除冗余变量，直接使用转换后的字符计算ASCII
+ * 
+ * 时间复杂度：O(1)
+ * 空间复杂度：O(1)
+ */
 
-输入
-一个字符。
-
-输出
-转换后的字符和十进制ASCII码，中间1个空格。
-
-样例
-输入
-
-a
-输出
-
-A 65
-输入
-
-@
-输出
-
-@ 64*/
 #include <stdio.h>
-int main()
-{
-    char ch, x;
-    char res, y;
-    scanf("%c", &ch);
-    x=ch;
-    
-    if (ch>='a' && ch<='z')
-    {
-        res=ch-32;
-        y=x-32;   
-    }
-    
-    else if (ch>='A' && ch<='Z')
-    {
-        res=ch+32;
-        y=x+32;
-    }
-    
-    else
-    {
-        res=ch;
-        y=x;
-    }
 
-    printf("%c %d", res, y);
+int main() {
+    char ch;
+    scanf("%c", &ch);
+    
+    if (ch >= 'a' && ch <= 'z') {
+        // 小写转大写
+        char upper = ch - 32;
+        printf("%c %d\n", upper, upper);
+    } else if (ch >= 'A' && ch <= 'Z') {
+        // 大写转小写
+        char lower = ch + 32;
+        printf("%c %d\n", lower, lower);
+    } else {
+        // 其他字符
+        printf("%c %d\n", ch, ch);
+    }
+    
     return 0;
 }

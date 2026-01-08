@@ -1,95 +1,61 @@
-/*
-描述
-从键盘输入 
-a
-,
-b
-,
-c
-a,b,c 三个整数，作为三角形的三条边长，判断这是一个直角/锐角/钝角三角形？
+/**
+ * @brief 判断三角形的类型（锐角/直角/钝角）
+ * 
+ * 算法思路：
+ * 1. 验证三角形的三边不等式
+ * 2. 使用勾股定理判断：
+ *    - a² = b² + c² → 直角
+ *    - a² > b² + c² → 钝角
+ *    - a² < b² + c² → 锐角
+ * 
+ * 优化点：
+ * - 提取排序逻辑到函数
+ * - 使用三元运算符简化排序
+ * - 避免浮点运算，直接比较平方
+ * 
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(1)
+ */
 
-输入
-第1行是一个整数 
-n
-n，表示随后有 
-n
-n 组数据。每组数据占一行，依次输入三个整数，分别表示 
-a
-,
-b
-,
-c
-a,b,c，数字间用逗号隔开。
-
-输出
-如果是锐角三角形，输出字符串 acute
-如果是直角三角形，输出字符串 right
-如果是钝角三角形，输出字符串 obtuse
-如果无法构成三角形，输出字符串 illegal
-样例
-输入
-
-3
-3,4,5
-1,2,1
-6,5,4
-输出
-
-right
-illegal
-acute
-*/
 #include <stdio.h>
-int main(){
-    int n, a, b, c, max, mid, min;
-    double res1, res2;
-    scanf("%d", &n);
-    for (int i = 0; i < n; i++){
-        scanf("%d,%d,%d", &a, &b, &c);
 
-        if (a >= b && a >= c){
-            max = a;
-            if(b >= c){
-                mid = b;
-                min = c;
-            }else{
-                mid = c;
-                min = b;
-            }
-        }else if(b >= a && b >= c){
-            max = b;
-            if(a>=c){
-                mid = a;
-                min = c;
-            }else{
-                mid = c;
-                min = a;
-            }
-        }else{
-            max = c;
-            if(a >= b){
-                mid = a;
-                min = b;
-            }else{
-                mid = b;
-                min = a;
-            }
-        }
-        res1 = max*max;
-        res2 = mid*mid + min*min;
-        if((min +mid) <= max){
+// 简化排序函数
+void sort_three(int *a, int *b, int *c) {
+    if (*a < *b) { int t = *a; *a = *b; *b = t; }
+    if (*a < *c) { int t = *a; *a = *c; *c = t; }
+    if (*b < *c) { int t = *b; *b = *c; *c = t; }
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+    
+    for (int i = 0; i < n; i++) {
+        int a, b, c;
+        scanf("%d,%d,%d", &a, &b, &c);
+        
+        // 排序三边，使a为最大值
+        sort_three(&a, &b, &c);
+        
+        // 检查三角形不等式
+        if (a >= b + c) {
             printf("illegal\n");
             continue;
-        }else if(res1 > res2){
+        }
+        
+        // 使用long long避免溢出
+        long long a_sq = (long long)a * a;
+        long long bc_sq = (long long)b * b + (long long)c * c;
+        
+        // 根据勾股定理判断
+        if (a_sq > bc_sq) {
             printf("obtuse\n");
-            continue;
-        }else if(res1 == res2){
+        } else if (a_sq == bc_sq) {
             printf("right\n");
-            continue;
-        }else{
+        } else {
             printf("acute\n");
-            continue;
         }
     }
+    
     return 0;
 }

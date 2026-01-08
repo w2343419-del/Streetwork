@@ -1,56 +1,37 @@
-/*描述
-输入 
-3
-3 个十进制整数，计算最大值和最小值的差并输出。
-
-输入
-输入 
-3
-3 个十进制整数，范围是 
-−
-100
-∼
-100
-−100∼100，中间以空格分隔。
-
-输出
-输出最大值和最小值的差。
-
-样例
-输入
-
-1 2 3
-输出
-
-2*/
+/**
+ * @brief 计算三个整数的最大值和最小值的差
+ * 
+ * 算法思路：
+ * 1. 先比较前两个数确定初始的max和min
+ * 2. 再将第三个数与max和min比较更新
+ * 3. 计算差值并输出
+ * 
+ * 时间复杂度：O(1)
+ * 空间复杂度：O(1)
+ */
 
 #include <stdio.h>
-int main()
-{
-    int a,b,c,max,min,minus;
+
+int main() {
+    int a, b, c;
     scanf("%d %d %d", &a, &b, &c);
-    if (a>b)
-    {
-        max=a;
-        min=b;
+    
+    // 初始化max和min
+    int max = (a > b) ? a : b;
+    int min = (a > b) ? b : a;
+    
+    // 更新max
+    if (c > max) {
+        max = c;
     }
-
-    else 
-    {
-        max=b;
-        min=a;
+    
+    // 更新min
+    if (c < min) {
+        min = c;
     }
-
-    if(c>max)
-    {
-        max=c;
-    }
-
-    if(c<min)
-    {
-        min=c;
-    }
-    minus=max-min;
-    printf("%d", minus);
+    
+    // 输出差值
+    printf("%d\n", max - min);
+    
     return 0;
 }

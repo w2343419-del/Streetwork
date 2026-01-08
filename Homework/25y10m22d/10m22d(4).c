@@ -1,39 +1,34 @@
-/*
-描述
-输入圆的圆心坐标 (cx, cy) 和半径 r（r>0），再输入一个点 (px, py)。
-若点 严格位于圆内（不包括边界），输出 1；否则输出 0。
+/**
+ * @brief 判断点是否严格位于圆内（不包括边界）
+ * 
+ * 算法思路：
+ * 使用距离公式：d² = (cx - px)² + (cy - py)²
+ * 若 d² < r²，则点在圆内
+ * 
+ * 优化点：避免使用sqrt，直接比较平方
+ * 使用long long避免整数溢出
+ * 
+ * 时间复杂度：O(1)
+ * 空间复杂度：O(1)
+ */
 
-输入
-一行， 输入5个整数：cx cy r px py
-
-输出
-点在圆内输出1，否则输出0。
-
-样例
-输入
-
-0 0 5 3 4
-输出
-
-0
-输入
-
-0 0 5 3 3
-输出
-
-1
-*/
 #include <stdio.h>
+
 int main() {
     int cx, cy, r, px, py;
     scanf("%d %d %d %d %d", &cx, &cy, &r, &px, &py);
-    if (((cx-px)*(cx-px)+(cy-py)*(cy-py))<r*r)
-    {
+    
+    // 计算距离平方（使用long long避免溢出）
+    long long dx = cx - px;
+    long long dy = cy - py;
+    long long dist_sq = dx * dx + dy * dy;
+    long long r_sq = (long long)r * r;
+    
+    if (dist_sq < r_sq) {
         printf("1\n");
-    }
-    else
-    {
+    } else {
         printf("0\n");
     }
+    
     return 0;
 }

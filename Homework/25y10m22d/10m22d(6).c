@@ -1,84 +1,33 @@
-/* 描述
+/**
+ * @brief 判断字符的类型（数字/字母/其他）
+ * 
+ * 算法思路：
+ * 1. 使用isdigit判断数字 ('0'-'9')
+ * 2. 使用isalpha判断字母 ('a'-'z' 或 'A'-'Z')
+ * 3. 其他字符输出"else"
+ * 
+ * 时间复杂度：O(n) - n为输入的字符个数
+ * 空间复杂度：O(1)
+ */
 
- 
-
-输入一个字符，判断是哪类字符
-
- 
-
-输入
-
- 
-
-第1行是一个整数n，表示随后有n组数据。
-
-每组数据占一行，包含一个字符。
-
- 
-
-输出
-
- 
-
-对于每一组数据，
-
-若该字符是数字，则输出“number”；
-
-若该字符是字母，则输出“letter”
-
-否则输出“else”。
-
- 
-
-样例
-
- 
-
-输入
-
-输出
-
-3
-
-1
-
-a
-
-+
-
-
-
-number
-
-letter
-
-else
-*/
 #include <stdio.h>
+#include <ctype.h>
+
 int main() {
     int n;
     scanf("%d", &n);
-    getchar();
     
-
-    for (int i=0; i<n; i++){
+    for (int i = 0; i < n; i++) {
         char ch;
-        scanf("%c",&ch);
+        scanf(" %c", &ch);  // 注意：%c前加空格，避免读取换行符
         
-        if (ch>='0' && ch <= '9'){
+        if (isdigit(ch)) {
             printf("number\n");
-        }
-
-        else if ((ch>='a' && ch <= 'z') || (ch>='A' && ch <= 'Z')){
+        } else if (isalpha(ch)) {
             printf("letter\n");
-        }
-
-        else{
+        } else {
             printf("else\n");
         }
-        
-        getchar();
-    
     }
     
     return 0;
