@@ -22,8 +22,10 @@ int main() {
         scanf("%d", &m);
         
         if (m < 0) {
+            // 负数无平方根
             printf("ERROR\n");
         } else {
+            // 计算平方根并保留2位小数
             double res = sqrt(m);
             printf("%.2lf\n", res);
         }

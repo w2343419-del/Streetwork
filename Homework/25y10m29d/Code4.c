@@ -1,47 +1,46 @@
-/*描述
-
-输入一个整数n（n> 0），计算1/3-2/5+3/8-4/12+5/17。。。前n项的值，结果保留4位小数
-
-输入
-
-第1行是一个整数n，表示随后有n组数据。每组数据占一行。
-
-输出
-
-每组输入的结果保留4位小数，并换行。
-
-样例
-
-输入           输出
-
-2
-
-1                 0.3333
-
-2                -0.0667
-*/
+/**
+ * @brief 计算交替级数求和
+ * 
+ * 问题描述：
+ * 计算级数 1/3 - 2/5 + 3/8 - 4/12 + 5/17 ... 前n项的值
+ * 
+ * 数学规律分析：
+ * - 第i项分子：i
+ * - 第i项分母：i*(i+1)/2 + 2 = (i²+i+4)/2
+ * - 第i项符号：奇数项为正，偶数项为负
+ * 
+ * 算法复杂度：O(n*m)，其中n为测试用例数，m为每个用例的项数
+ * 空间复杂度：O(1)
+ * 
+ * 优化点：
+ * - 使用double类型确保精度
+ * - 直接计算分母避免重复运算
+ */
 #include <stdio.h>
+
 int main() {
-    int n;
-    scanf ("%d", &n);
+    int n;  // 测试用例数
+    scanf("%d", &n);
     
     for (int i = 0; i < n; i++) {
-        double sum = 0.0000;
-        int a;
-        scanf ("%d", &a);
+        double sum = 0.0;  // 累加和
+        int terms;  // 项数
+        scanf("%d", &terms);
 
-        for (int j = 1; j <= a; j++) {
-            double c = j;
-            double d = j * ( j + 1 ) / 2 + 2;
-            double e = c / d;
+        for (int j = 1; j <= terms; j++) {
+            // 计算第j项：j / (j*(j+1)/2 + 2)
+            double numerator = j;  // 分子
+            double denominator = j * (j + 1) / 2.0 + 2;  // 分母
+            double term = numerator / denominator;  // 当前项的值
            
-            if ( j % 2 == 0 ) {
-                sum -= e;
+            // 交替加减：奇数项为正，偶数项为负
+            if (j % 2 == 0) {
+                sum -= term;
             } else {
-                sum += e;
+                sum += term;
             }
         }
-        printf ("%.4lf\n", sum);
+        printf("%.4lf\n", sum);
     }
     return 0;
 }

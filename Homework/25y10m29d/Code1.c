@@ -1,71 +1,54 @@
-/*
-描述
-输入三角形的3条边长， 判断三角形是否是直角三角形。
+/**
+ * @brief 判断三角形是否为直角三角形
+ * 
+ * 算法思路：
+ * 1. 使用勾股定理：a² + b² = c²（c为最长边）
+ * 2. 使用整数平方而非浮点pow()，避免精度问题
+ * 3. 先验证三角形有效性（三边都为正，任意两边之和>第三边）
+ * 4. 找出最大边，验证其平方是否等于其他两边平方和
+ * 
+ * 时间复杂度：O(n)，n为测试用例数
+ * 空间复杂度：O(1)
+ * 
+ * 优化点：
+ * - 用整数乘法替代pow()，避免浮点数精度问题
+ * - 简化最大边查找逻辑，提高代码可读性
+ */
 
-输入
-第1行是一个整数n，表示随后有n组数据。每组数据占一行，包含3个整数代表3条边长(每个整数的平方能够用32位整数表示)，用空格分隔。
-
-输出
-每组输出占一行，如果是直角三角形输出Yes，不是则输出No。
-
-样例
-输入
-
-2
-3 4 5   
-3 5 7
-输出
-
-Yes
-No
-*/
 #include <stdio.h>
-#include <math.h>
 int main() {
     int n;
-    int a, b, c, max, mid, min;
-    double d, e;
-    scanf ("%d", &n);
+    scanf("%d", &n);
     
-    for ( int i = 0; i<n; i++ ) {
-        scanf ("%d %d %d", &a, &b, &c);
-    
+    for (int i = 0; i < n; i++) {
+        long long a, b, c;
+        scanf("%lld %lld %lld", &a, &b, &c);
         
-        if( a <= 0 || b <= 0 || c <= 0 ) {
-            printf ("No\n");
-        } else if (a+b <= c || a+c <= b || b+c <= a) {
-            printf ("No\n");
+        // 验证三角形有效性
+        if (a <= 0 || b <= 0 || c <= 0) {
+            printf("No\n");
+            continue;
+        }
+        if (a + b <= c || a + c <= b || b + c <= a) {
+            printf("No\n");
+            continue;
+        }
+        
+        // 找出最大边和其他两边
+        long long max_side, side1, side2;
+        if (a >= b && a >= c) {
+            max_side = a; side1 = b; side2 = c;
+        } else if (b >= a && b >= c) {
+            max_side = b; side1 = a; side2 = c;
         } else {
-            if (a >= b) {
-                max = a; min = b;
-                
-                if (c >= max) {
-                    max = c; mid = a; min = b;
-                } else if (c <= min) {
-                    max = a; mid = b; min = c;
-                } else {
-                    max = a; mid = c; min = b;
-                }
-            } else {
-                max = b; min = a;
-
-                if (c >= max) {
-                    max = c; mid = b; min = a;
-                } else if (c <= min) {
-                    max = b; mid = a; min = c;
-                } else {
-                    max = b; mid = c; min = a;
-                }
-            }
-
-            d = pow ( max, 2 );
-            e = pow ( min, 2 ) + pow ( mid, 2 );
-
-            if ( d == e ) {
-                printf ("Yes\n");
-            } else {
-                printf ("No\n");
-            }
+            max_side = c; side1 = a; side2 = b;
+        }
+        
+        // 使用勾股定理验证（a² + b² = c²）
+        if (max_side * max_side == side1 * side1 + side2 * side2) {
+            printf("Yes\n");
+        } else {
+            printf("No\n");
         }
     }
     

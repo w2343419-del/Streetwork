@@ -16,10 +16,14 @@ int main() {
 	int a, b, c;
 	int sum;
 	
+	// 提取个位数
 	c = n % 10;
+	// 提取十位数
 	b = ( (n - c) / 10 ) % 10;
+	// 提取百位数
 	a = n / 100;
 	
+	// 计算三位数字之和
 	sum = a + b + c;
 	printf("%d", sum);
 	return 0;

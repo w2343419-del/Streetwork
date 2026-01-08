@@ -25,9 +25,11 @@ int main() {
         char str[40];
         scanf("%d", &num);
         
+        // 将数字转换为字符串
         sprintf(str, "%d", num);
         int len = strlen(str);
         
+        // 检查是否为回文：比较对称位置的字符
         int is_palindrome = 1;
         for (int j = 0; j < len / 2; j++) {
             if (str[j] != str[len - 1 - j]) {
@@ -36,6 +38,7 @@ int main() {
             }
         }
         
+        // 输出结果
         if (is_palindrome) {
             printf("Yes\n");
         } else {

@@ -25,6 +25,7 @@ int main() {
         int year;
         scanf("%d", &year);
         
+        // 判断是否为闰年：能被400整除或(能被4整除且不能被100整除)
         if (is_leap_year(year)) {
             printf("yes\n");
         } else {

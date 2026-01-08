@@ -18,11 +18,12 @@ int main() {
     
     double sum = 0.0;
     
+    // 计算交错级数：1 - 1/2 + 1/3 - 1/4 + ...
     for (long long i = 1; i <= n; i++) {
         if (i % 2 == 1) {
-            sum += 1.0 / i;
+            sum += 1.0 / i;  // 奇数项为正
         } else {
-            sum -= 1.0 / i;
+            sum -= 1.0 / i;  // 偶数项为负
         }
     }
     

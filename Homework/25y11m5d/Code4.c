@@ -1,64 +1,65 @@
-/*描述
-输入一个正整数（奇数），按要求打印菱形。要求，第一行打印1个*，第二行打印3个*，每行等差递增直到输出n个*，之后每行递减输出，直到输出1个*。注意：所有*构成一个菱形的形状,即菱形本身靠中轴线对齐。（注意本题的输出格式）
-
-输入
-第1行是一个整数n，表示随后有n组数据。每组数据占一行。
-
-输出
-若n不符合要求，输出error；若n符合要求，首先输出print，然后换行打印菱形，并换行。注意：菱形最长的一排*靠左边，无空格。
-
-样例
-
-输入
-
-输出
-
-1
-
-5
-
-print
-
-  *
-
- ***
-
-*****
-
- ***
-
-  *
-*/
+/**
+ * @brief 打印菱形图案
+ * 
+ * 问题描述：
+ * 输入奇数n，打印由*组成的菱形
+ * 第一行1个*，递增到n个*，再递减到1个*
+ * 
+ * 算法分析：
+ * - 分两部分：上半部分递增，下半部分递减
+ * - 每行先打印空格（居中），再打印*
+ * - 空格数：(n - 当前行星数) / 2
+ * - 时间复杂度：O(n²)
+ * - 空间复杂度：O(1)
+ * 
+ * 图案规律：
+ * 第i行（i为奇数1,3,5...）：(n-i)/2个空格 + i个星号
+ */
 #include <stdio.h>
-int main(){
-    int n, a;
-    scanf("%d", &n);
+
+int main() {
+    int test_count;  // 测试用例数
+    int n;  // 菱形边长
     
-    for( int i = 1; i <= n; i++){
-        scanf("%d", &a);
-        if (a % 2 == 0) {
-            printf("error");
-        } else {
-            printf("print\n");
-            for (int i = 1; i <= a; i += 2) {
-                for (int j = 1; j <= (a - i) / 2; j++){
-                    printf(" ");
-                }
-                for (int j = 1; j <= i; j++) {
-                    printf("*");
-                }
-                printf("\n");
+    scanf("%d", &test_count);
+    
+    for (int t = 1; t <= test_count; t++) {
+        scanf("%d", &n);
+        
+        // 检查是否为奇数
+        if (n % 2 == 0) {
+            printf("error\n");
+            continue;
+        }
+        
+        printf("print\n");
+        
+        // 上半部分：从1个*递增到n个*
+        for (int i = 1; i <= n; i += 2) {
+            // 打印前导空格（居中对齐）
+            for (int j = 1; j <= (n - i) / 2; j++) {
+                printf(" ");
             }
-            for (int i = a - 2; i >= 1; i -= 2) {
-                for (int j = 1; j <= (a - i) / 2; j++){
-                    printf(" ");
-                }
-                for (int j = 1; j <= i; j++) {
-                    printf("*");
-                }
-                printf("\n");
+            // 打印*
+            for (int j = 1; j <= i; j++) {
+                printf("*");
             }
+            printf("\n");
+        }
+        
+        // 下半部分：从n-2个*递减到1个*
+        for (int i = n - 2; i >= 1; i -= 2) {
+            // 打印前导空格
+            for (int j = 1; j <= (n - i) / 2; j++) {
+                printf(" ");
+            }
+            // 打印*
+            for (int j = 1; j <= i; j++) {
+                printf("*");
+            }
+            printf("\n");
         }
     }
+    
     return 0;
 }
