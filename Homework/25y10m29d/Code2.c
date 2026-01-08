@@ -23,23 +23,37 @@
 
 
 */
+/**
+ * @brief 计算偶数项的倒数和
+ * 
+ * 算法思路：
+ * 计算 1/2 + 1/4 + 1/6 + ... + 1/n
+ * 其中 n 为偶数
+ * 
+ * 注意：使用浮点数计算，避免整数除法
+ * 
+ * 时间复杂度：O(m * n)
+ * 空间复杂度：O(1)
+ */
+
 #include <stdio.h>
+
 int main() {
     int m, n;
-    double sum = 0.0000;
-    scanf ( "%d", &m );
+    scanf("%d", &m);
 
-    for ( int i = 1; i <= m; i++ ) {
-        scanf ( "%d", &n );
-        sum = 0.0000;
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &n);
         
-        for ( int j = 1; j <= n; j++ ) {
-            if ( ( j % 2 ) == 0 ) {
-                sum = sum + ( 1.0 / j );
-            }
+        double sum = 0.0;
+        
+        // 累加所有偶数项的倒数
+        for (int j = 2; j <= n; j += 2) {
+            sum += 1.0 / j;
         }
-        printf ("%.4lf\n", sum);
         
+        printf("%.4lf\n", sum);
     }
+    
     return 0;
 }
