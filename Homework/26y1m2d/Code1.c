@@ -12,15 +12,23 @@
 输出
 30*/
 
+/**
+ * @brief 计算4个整数的平方和
+ * 
+ * 算法：直接计算 a² + b² + c² + d²
+ * 
+ * 时间复杂度：O(1)
+ * 空间复杂度：O(1)
+ */
+
 #include <stdio.h>
 
 int main() {
     int a, b, c, d;
     scanf("%d %d %d %d", &a, &b, &c, &d);
     
-    int sum = 0;
-    sum = a * a + b * b + c * c + d * d;
+    // 直接计算平方和，避免不必要的中间变量
+    printf("%d\n", a * a + b * b + c * c + d * d);
     
-    printf("%d\n", sum);
     return 0;
 }

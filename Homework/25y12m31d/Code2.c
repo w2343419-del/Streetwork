@@ -26,46 +26,74 @@ abcdhbaghba ab
 输出
 7*/
 
+/**
+ * @brief 字符串对称检测 - 增强版
+ * 
+ * 算法思路：
+ * 1. 生成S2的反串
+ * 2. 检查S2是否为回文（若是回文则无法对称出现）
+ * 3. 遍历S1，找到所有S2出现的位置
+ * 4. 对于每个S2位置，向后查找S2反串
+ * 5. 计算最大间隔
+ * 
+ * 优化点：
+ * - 提前检查回文情况
+ * - 清晰的变量命名
+ * - 优化查找逻辑
+ * 
+ * 时间复杂度：O(len1 * len2)
+ * 空间复杂度：O(len2)
+ */
+
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
+
 int main() {
-    char S1[300], S2[10];
-    scanf("%s %s", S1, S2);
+    char s1[301], s2[11];
+    scanf("%s %s", s1, s2);
 
-    char S2_turn[10];
-    strcpy(S2_turn, S2);
-    for (int i = 0; i < strlen(S2); i++) {
-        S2_turn[i] = S2[strlen(S2) - 1 - i];
+    int len1 = strlen(s1);
+    int len2 = strlen(s2);
+    
+    // 生成S2的反串
+    char s2_rev[11];
+    for (int i = 0; i < len2; i++) {
+        s2_rev[i] = s2[len2 - 1 - i];
     }
-    S2_turn[strlen(S2)] = '\0';
+    s2_rev[len2] = '\0';
 
-    int max_distance = -2147483648;
-    int found = 0;
-
-    if (strcmp(S2, S2_turn) == 0) {
+    // 如果S2是回文串，则无法对称出现（正串和反串相同）
+    if (strcmp(s2, s2_rev) == 0) {
         printf("no\n");
         return 0;
     }
 
-    for (int i = 0; i <= strlen(S1) - strlen(S2); i++) {
-        if (strncmp(&S1[i], S2, strlen(S2)) == 0) {
-            for (int j = strlen(S1) - strlen(S2_turn); j >= i + strlen(S2); j--) {
-                if (strncmp(&S1[j], S2_turn, strlen(S2_turn)) == 0) {
-                    int distance = j - i - strlen(S2);
+    int max_distance = INT_MIN;
+    int found = 0;
+
+    // 遍历所有可能的S2正串位置
+    for (int i = 0; i <= len1 - len2; i++) {
+        if (strncmp(&s1[i], s2, len2) == 0) {
+            // 找到S2正串，向后寻找反串
+            // 反串必须在正串结束之后或有重叠（允许负距离）
+            for (int j = i + len2 - 1; j <= len1 - len2; j++) {
+                if (strncmp(&s1[j], s2_rev, len2) == 0) {
+                    // 计算间隔：反串起始位置 - 正串结束位置
+                    int distance = j - (i + len2);
                     if (distance > max_distance) {
                         max_distance = distance;
                         found = 1;
                     }
-                    break;
                 }
             }
         }
     }
 
-    if (found == 0) {
-        printf("no\n");
-    } else {
+    if (found) {
         printf("%d\n", max_distance);
+    } else {
+        printf("no\n");
     }
     
     return 0;

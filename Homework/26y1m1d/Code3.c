@@ -21,25 +21,46 @@ L=3， R=7，则 S=15+23=38。
 输出
 38*/
 
+/**
+ * @brief 计算数组指定区间内的奇数和
+ * 
+ * 算法思路：
+ * 1. 读取数组
+ * 2. 遍历区间[L, R]
+ * 3. 累加所有奇数（通过 num % 2 != 0 判断）
+ * 
+ * 注意：负数的奇偶性判断
+ * - 对于负奇数：-3 % 2 = -1（在C语言中）
+ * - 所以应该用 num % 2 != 0 而不是 num % 2 == 1
+ * 
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(n)
+ */
+
 #include <stdio.h>
+
+#define MAX_SIZE 100  // 数组最大长度
 
 int main() {
     int n;
     scanf("%d", &n);
 
-    int s[100];
+    // 读取数组元素
+    int arr[MAX_SIZE];
     for (int i = 0; i < n; i++) {
-        scanf("%d", &s[i]);
+        scanf("%d", &arr[i]);
     }
 
-    int l, r;
-    scanf("%d %d", &l, &r);
+    // 读取查询区间
+    int left, right;
+    scanf("%d %d", &left, &right);
 
+    // 计算区间内奇数和
     int sum = 0;
-
-    for (int i = l; i <= r; i++) {
-        if (s[i] % 2 == 1) {
-            sum += s[i];
+    for (int i = left; i <= right; i++) {
+        // 判断是否为奇数（包括负奇数）
+        if (arr[i] % 2 != 0) {
+            sum += arr[i];
         }
     }
 
