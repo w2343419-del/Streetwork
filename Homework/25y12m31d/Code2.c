@@ -63,6 +63,45 @@ int main() {
     }
     s2_rev[len2] = '\0';
 
+    // 如果S2是回文串，则无法对称出现
+    if (strcmp(s2, s2_rev) == 0) {
+        printf("no\n");
+        return 0;
+    }
+
+    int max_distance = INT_MIN;
+    int found = 0;
+
+    // 遍历所有可能的S2正串位置
+    for (int i = 0; i <= len1 - len2; i++) {
+        if (strncmp(&s1[i], s2, len2) == 0) {
+            // 找到S2正串，向后寻找反串
+            for (int j = i + len2 - 1; j <= len1 - len2; j++) {
+                if (strncmp(&s1[j], s2_rev, len2) == 0) {
+                    // 计算间隔
+                    int distance = j - (i + len2);
+                    if (distance > max_distance) {
+                        max_distance = distance;
+                        found = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    if (found) {
+        printf("%d\n", max_distance);
+    } else {
+        printf("no\n");
+    }
+    
+    return 0;
+}
+    for (int i = 0; i < len2; i++) {
+        s2_rev[i] = s2[len2 - 1 - i];
+    }
+    s2_rev[len2] = '\0';
+
     // 如果S2是回文串，则无法对称出现（正串和反串相同）
     if (strcmp(s2, s2_rev) == 0) {
         printf("no\n");

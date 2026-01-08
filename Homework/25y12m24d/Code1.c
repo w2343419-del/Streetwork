@@ -29,6 +29,19 @@ m
 输出
 5*/
 
+/**
+ * @brief 有序链表构造与查询
+ * 
+ * 算法思路：
+ * 1. 边读取边插入，保持链表有序
+ * 2. 插入时找到合适位置（二分查找位置）
+ * 3. 查询第m个节点
+ * 4. 释放内存
+ * 
+ * 时间复杂度：O(n²) - 每次插入O(n)
+ * 空间复杂度：O(n)
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -37,21 +50,31 @@ typedef struct Node {
     struct Node *pNext;
 } NODE, *pNODE;
 
+/**
+ * @brief 向有序链表插入新节点
+ * @param pHead 链表头指针
+ * @param data 要插入的数据
+ * @return 新的链表头指针
+ */
 pNODE insertSorted(pNODE pHead, int data) {
+    // 创建新节点
     pNODE pNew = (pNODE)malloc(sizeof(NODE));
     pNew->data = data;
     pNew->pNext = NULL;
     
+    // 空链表或插入到头部
     if (pHead == NULL || pHead->data > data) {
         pNew->pNext = pHead;
         return pNew;
     }
     
+    // 查找插入位置
     pNODE pCurrent = pHead;
     while (pCurrent->pNext != NULL && pCurrent->pNext->data < data) {
         pCurrent = pCurrent->pNext;
     }
     
+    // 插入节点
     pNew->pNext = pCurrent->pNext;
     pCurrent->pNext = pNew;
     
@@ -64,6 +87,7 @@ int main() {
 
     pNODE pHead = NULL;
 
+    // 读取n个数并插入有序链表
     for (int i = 0; i < n; i++) {
         int num;
         scanf("%d", &num);
@@ -73,6 +97,7 @@ int main() {
     int m;
     scanf("%d", &m);
 
+    // 查找第m个节点
     pNODE pCurrent = pHead;
     for (int i = 1; i < m && pCurrent != NULL; i++) {
         pCurrent = pCurrent->pNext;
@@ -82,6 +107,7 @@ int main() {
         printf("%d\n", pCurrent->data);
     }
 
+    // 释放链表内存
     pCurrent = pHead;
     while (pCurrent != NULL) {
         pNODE pTemp = pCurrent;
