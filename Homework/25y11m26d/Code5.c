@@ -1,47 +1,53 @@
-/*m（m>3）个人围成一圈，从第一个人开始顺序报数1,2,3,1,2,3，…凡报到3的人退出圈子， 请问剩下的最后一个人最开始排在第几个？
-输入
-第一行是一个整数n，表示一共有n组测试用例；
-下面一共有n组输入，每组输入为一个正整数，表示本组测试有多少人
+/**
+ * @brief 约瑟夫环问题（Josephus Problem）
+ * 
+ * 问题：m个人围成一圈，从第1人开始数1,2,3...，报到3的人退出
+ * 求最后剩下的人的初始位置\n * 算法思路：
+ * 1. 使用数组表示m个人，初始值为1到m
+ * 2. 从第0人开始，计数到第2个人（报到3）
+ * 3. 删除该人，继续计数
+ * 4. 重复直到只剩1人\n * 优化点：
+ * - 使用取模运算避免重复遍历\n * 时间复杂度：O(m²)
+ * 空间复杂度：O(m)
+ */
 
-输出
-对于每一组输入数据，输出最后剩下那个人在一开始的队伍里排第几
-
-样例
-输入
-2
-4
-10
-
-输出
-1
-4
-
-提示
-当最后只剩下两个人A、B时，假设A先报1，那么B报2，然后A再报3，A出圈，最后剩下的就是B。*/
 #include <stdio.h>
+
 int main() {
     int n;
     scanf("%d", &n);
-
+    
     for (int i = 0; i < n; i++) {
         int m;
         scanf("%d", &m);
+        
         int p[m];
-        int c = 0, r = m;
+        // 初始化：p[i]表示第i个位置上的人的编号
         for (int j = 0; j < m; j++) {
             p[j] = j + 1;
         }
         
-        while (r > 1) {
-            int out = (c + 2) % r;            
-            for (int j = out; j < r - 1; j++) {
+        int current = 0;  // 当前位置
+        int remaining = m;  // 剩余人数
+        
+        while (remaining > 1) {
+            // 报数2个位置（从current+1开始报1、2、3）
+            // 所以第(current+2)%remaining个人出圈
+            int out = (current + 2) % remaining;
+            
+            // 删除第out个人
+            for (int j = out; j < remaining - 1; j++) {
                 p[j] = p[j + 1];
             }
-            r--;
-            c = out % r;
+            
+            remaining--;
+            
+            // 更新当前位置
+            current = out % remaining;
         }
         
         printf("%d\n", p[0]);
     }
+    
     return 0;
 }

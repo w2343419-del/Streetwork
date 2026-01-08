@@ -1,74 +1,61 @@
-/*描述
-输入 n 个整数，找出输入的整数中只出现 2 次的数。
+/**
+ * @brief 统计出现2次的数字
+ * 
+ * 算法思路：
+ * 1. 使用频率数组统计每个数字的出现次数
+ * 2. 再次遍历原数组，记录首次出现且频率为2的数
+ * 3. 使用found数组避免重复输出
+ * \n * 优化点：
+ * - 两次遍历：第一次计数，第二次输出（保持顺序）
+ * - 避免重复输出已处理的数\n * 时间复杂度：O(n)
+ * 空间复杂度：O(n + 数值范围)
+ */
 
-输入
-每个输入包含一个测试用例，第1行输入整数 n (1≤n≤20)；第2行输入 n 个整数，之间用空格分隔。
-
-输出
-输出只出现2次的整数，存在多个则用空格分隔，按首次出现的顺序输出。如果没有，则输出none。
-
-样例1
-输入
-5
-5 2 3 4 3
-
-输出
-3
-
-样例2
-输入
-6
-2 3 3 2 5 6
-
-输出
-2 3
-
-样例3
-输入
-4
-3 4 5 6
-
-输出
-none*/
 #include <stdio.h>
+
 int main() {
-    int n, a[20], i, j;
-    int freq[1000] = {0}; 
-    int found[20];        
-    int found_count = 0;
+    int n;
     scanf("%d", &n);
-
-    for (i = 0; i < n; i++) {
+    
+    int a[20];
+    int freq[1020] = {0};  // 频率数组，处理负数用偏移
+    
+    // 读取数据并计数
+    for (int i = 0; i < n; i++) {
         scanf("%d", &a[i]);
-        freq[a[i] + 500]++; 
+        freq[a[i] + 500]++;
     }
     
-    for (i = 0; i < n; i++) {
-        if (freq[a[i] + 500] == 2) {
-            int is_first_occurrence = 1;
-            for (j = 0; j < i; j++) {
-                if (a[j] == a[i]) {
-                    is_first_occurrence = 0;
-                    break;
-                }
+    int found_count = 0;
+    int found[20] = {0};
+    
+    // 找出所有出现2次的数，保持首次出现顺序
+    for (int i = 0; i < n; i++) {
+        // 检查a[i]是否已经被记录过
+        int already_found = 0;
+        for (int j = 0; j < found_count; j++) {
+            if (found[j] == a[i]) {
+                already_found = 1;
+                break;
             }
-            
-            if (is_first_occurrence) {
-                found[found_count++] = a[i];
+        }
+        
+        // 如果出现2次且未被记录，则输出
+        if (!already_found && freq[a[i] + 500] == 2) {
+            if (found_count > 0) {
+                printf(" ");
             }
+            printf("%d", a[i]);
+            found[found_count++] = a[i];
         }
     }
     
-
+    // 如果没有找到则输出none
     if (found_count == 0) {
-        printf("none\n");
-    } else {
-        for (i = 0; i < found_count; i++) {
-            if (i > 0) printf(" ");
-            printf("%d", found[i]);
-        }
-        printf("\n");
+        printf("none");
     }
+    
+    printf("\n");
     
     return 0;
 }

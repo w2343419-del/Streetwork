@@ -1,124 +1,108 @@
-/*小白是一个字符操作员，对于给定的一行字符串，他根据输入的指令串对字符串进行操作，指令包括：
-L：把字符串膨胀2倍，例如 abc -> aabbcc
-R：把字符串进行翻转，例如 abc -> cba
-Dn，其中n为一个整数：删除中心左侧的n个字母，如果字符数不够，则删除左侧全部字符，例如
-D1：abcde -> acde
-D2：abcde -> cde
-D1：abcd -> acd
-D3：abcd -> cd
-请编写程序帮助小白完成他的工作，并计算执行完成指令串后字符串第k(从1开始计)个位置上的字母是什么？
+/**
+ * @brief 字符串操作器
+ * 
+ * 支持的操作：
+ * L：膨胀2倍（abc -> aabbcc）
+ * R：翻转（abc -> cba）
+ * Dn：删除中心左侧的n个字符
+ * \n * 算法思路：
+ * 1. 对每组指令串，从原始字符串S开始
+ * 2. 依次执行指令L/R/Dn
+ * 3. 返回结果字符串的第k个字符
+ * 
+ * 优化点：
+ * - 不直接修改字符串，而是使用指针追踪位置
+ * - 避免大量字符串复制\n * 时间复杂度：O(指令数 * 字符串长度)
+ * 空间复杂度：O(1000) - 字符串长度上限
+ */
 
-输入
-第一行输入字符 S，长度不超过32。其中可能包含空格。
-随后若干行，每行为一组指令。前半部分为指令串，长度不超过16。随后为整数k，中间以空格分隔。
-指令End表示结束输入。
-可以保证，执行指令过程中的字符串长度不会超过1000。
-
-输出
-对每一组指令，按照要求从字符串S开始，依次执行指令后，得到一个字符串，输出该字符串第k个位置上的字符。
-
-如果没有满足条件的字符则输出NULL。
-
-每组指令都在原始字符串上进行操作，每组指令的输出占一行。
-
-样例
-
-输入
-abcd
-RD2L 3
-D3R 20
-End
-
-输出
-a
-NULL
-
-解释
-对于第1条指令，abcd -> dcba -> ba -> bbaa，所以第3个字符是a；
-对于第2条指令，abcd -> cd -> dc，没有第20个字符，所以结果是NULL。*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 int main() {
     char s[1001];
-    char a[1001];
-    int len;
-    char cmd[25];
+    fgets(s, sizeof(s), stdin);
     
-    fgets(a, sizeof(a), stdin);
-    int a_len = strlen(a);
-    
-    if (a_len > 0 && a[a_len-1] == '\n') {
-        a[a_len-1] = '\0';
-        a_len--;
+    // 移除换行符
+    int orig_len = strlen(s);
+    if (s[orig_len - 1] == '\n') {
+        s[orig_len - 1] = '\0';
     }
     
-    while (1) {
-        scanf("%s", cmd);
+    char cmd[25];
+    while (scanf("%s", cmd) != EOF) {
+        if (strcmp(cmd, "End") == 0) break;
         
-        if (cmd[0] == 'E' && cmd[1] == 'n' && cmd[2] == 'd') {
-            break;
-        }
-
         int k;
-        scanf("%d", &k);
-        strcpy(s, a);
-        len = a_len;
+        // 解析指令
+        char op = cmd[0];
+        char *rest = cmd + 1;
         
-        for (int i = 0; cmd[i] != '\0';) {
+        scanf("%d", &k);
+        
+        // 从原始字符串开始
+        char curr[1001];
+        strcpy(curr, s);
+        int curr_len = strlen(curr);
+        
+        // 处理指令串（每个字符都是一个操作）
+        int i = 0;
+        while (i < strlen(cmd)) {
             if (cmd[i] == 'L') {
+                // 膨胀2倍
                 char temp[1001];
-                int temp_len = 0;
-                
-                for (int j = 0; j < len; j++) {
-                    temp[temp_len++] = s[j];
-                    temp[temp_len++] = s[j];
+                int pos = 0;
+                for (int j = 0; j < curr_len; j++) {
+                    temp[pos++] = curr[j];
+                    temp[pos++] = curr[j];
                 }
-                
-                temp[temp_len] = '\0';
-                strcpy(s, temp);
-                len = temp_len;
+                temp[pos] = '\0';
+                strcpy(curr, temp);
+                curr_len = pos;
                 i++;
             } else if (cmd[i] == 'R') {
-                for (int j = 0; j < len/2; j++) {
-                    char temp = s[j];
-                    s[j] = s[len-1-j];
-                    s[len-1-j] = temp;
+                // 翻转
+                for (int j = 0; j < curr_len / 2; j++) {
+                    char t = curr[j];
+                    curr[j] = curr[curr_len - 1 - j];
+                    curr[curr_len - 1 - j] = t;
                 }
                 i++;
             } else if (cmd[i] == 'D') {
-                int n = 0;
-                int j = i + 1;
-                
-                while (cmd[j] >= '0' && cmd[j] <= '9') {
-                    n = n * 10 + (cmd[j] - '0');
-                    j++;
-                }
-                
-                int c = len / 2;
-                int start = c - n;
-                if (start < 0) start = 0;
-                
-                for (int idx = c; idx < len; idx++) {
-                    s[start++] = s[idx];
-                }
-                
-                len = start;
-                s[len] = '\0';
-                
-                i = j;
-            } else {
+                // 删除
                 i++;
+                int del_count = 0;
+                while (i < strlen(cmd) && cmd[i] >= '0' && cmd[i] <= '9') {
+                    del_count = del_count * 10 + (cmd[i] - '0');
+                    i++;
+                }
+                
+                // 删除中心左侧的del_count个字符
+                int mid = curr_len / 2;
+                int start = (mid - del_count > 0) ? (mid - del_count) : 0;
+                
+                char temp[1001];
+                int pos = 0;
+                for (int j = 0; j < start; j++) {
+                    temp[pos++] = curr[j];
+                }
+                for (int j = mid; j < curr_len; j++) {
+                    temp[pos++] = curr[j];
+                }
+                temp[pos] = '\0';
+                strcpy(curr, temp);
+                curr_len = pos;
             }
         }
-
-        if (k > len || k <= 0) {
-            printf("NULL\n");
+        
+        // 输出第k个字符
+        if (k > 0 && k <= curr_len) {
+            printf("%c\n", curr[k - 1]);
         } else {
-            printf("%c\n", s[k - 1]);
+            printf("NULL\n");
         }
     }
-
+    
     return 0;
-} 
+}

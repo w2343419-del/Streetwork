@@ -1,19 +1,14 @@
-/*输入n个整数，计算它们的平均值，保留小数点后两位。注意：输入可能是无效整数，表示为n/a。在计算平均值时，先排除掉无效整数。
+/**
+ * @brief 计算有效整数的平均值
+ * 
+ * 算法思路：
+ * 1. 读取所有输入，分别作为字符串存储
+ * 2. 过滤掉"n/a"，累加有效整数
+ * 3. 计算有效整数的平均值
+ * 4. 如果全为n/a，输出n/a\n * 时间复杂度：O(n)
+ * 空间复杂度：O(n)
+ */
 
-输入
-每个输入包含一个测试用例，第1行输入n (1≤n≤100)；第2行输入n个整数，之间用空格分隔。
-
-输出
-平均值，保留小数点后两位。如果输入全为n/a，则输出n/a
-
-样例
-输入
-
-6
-1 2 3 n/a 5 6
-输出
-
-3.40*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -24,26 +19,26 @@ int main() {
     
     char str[101][10];
     int count = 0, sum = 0;
-    double res = 0.00;
-
+    
+    // 读取所有数据
     for (int i = 0; i < n; i++) {
         scanf("%s", str[i]);
     }
-
+    
+    // 统计有效数据
     for (int i = 0; i < n; i++) {
-        if (strcmp(str[i], "n/a") == 0) {
-            continue;
-        } else {
+        if (strcmp(str[i], "n/a") != 0) {
             sum += atoi(str[i]);
             count++;
         }
     }
-   
+    
+    // 输出结果
     if (count == 0) {
         printf("n/a\n");
     } else {
-        res = (double)sum / count;
-        printf("%.2f\n", res);
+        double average = (double)sum / count;
+        printf("%.2f\n", average);
     }
     
     return 0;
