@@ -1,31 +1,24 @@
-/*描述
-给定一个带符号 32 位整数 n，
-把 n 的十进制表示中所有“奇数位数字”与“偶数位数字”交换，然后输出交换后的整数（保持原符号，忽略前导 0）。
+/**
+ * @brief 奇偶位数字交换
+ * 
+ * 算法思路：
+ * 1. 将整数转换为字符串处理
+ * 2. 保留符号位，从数字位开始交换
+ * 3. 每次交换两个相邻的数字（第1和2位、第3和4位...）
+ * 4. 转换回整数并输出
+ * 
+ * 优化点：
+ * - 使用字符串处理更清晰
+ * - 正确处理负数符号
+ * 
+ * 时间复杂度：O(log n) - n的位数
+ * 空间复杂度：O(log n)
+ */
 
-奇数位：从左往右数第 1、3、5…位；偶数位：第 2、4、6…位
-
-输入
-一个整数 n（32位带符号整数）。
-
-输出
-一个整数，表示交换后的整数。
-
-样例
-输入
-
-1234
-输出
-
-2143
-输入
-
--123
-输出
-
--213*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 int main() {
     int n;
     scanf("%d", &n);
@@ -33,20 +26,20 @@ int main() {
     char s[33];
     sprintf(s, "%d", n);
 
-    int start_index = 0;
-    if (s[0] == '-') {
-        start_index = 1;
-    }
-
+    // 确定数字部分的起始位置（跳过负号）
+    int start_index = (s[0] == '-') ? 1 : 0;
     int len = strlen(s);
-    for (int i = start_index; i < len - 1; i += 2){
+    
+    // 交换奇偶位的数字
+    for (int i = start_index; i < len - 1; i += 2) {
         char temp = s[i];
         s[i] = s[i + 1];
         s[i + 1] = temp;
     }
 
+    // 转换回整数
     int result = atoi(s);
+    printf("%d\n", result);
     
-    printf ("%d", result);
     return 0;
 }

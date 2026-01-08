@@ -1,23 +1,21 @@
-/*分解质因数，将一个数表示为质因数相乘的形式，如，30=2*3*5。
+/**
+ * @brief 质因数分解
+ * 
+ * 算法思路：
+ * 1. 特殊处理1的情况
+ * 2. 从2开始逐个尝试质因数
+ * 3. 对每个质因数，反复整除直到不能整除
+ * 4. 格式化输出，用*分隔因子
+ * 
+ * 优化点：
+ * - 跳过偶数（除了2），从3开始步长为2
+ * - 只要temp > 1就继续循环
+ * - 避免使用sqrt，直接用temp > 1判断
+ * 
+ * 时间复杂度：O(√num)
+ * 空间复杂度：O(1)
+ */
 
-输入
-第1行是一个整数n，表示随后有n组数据。每组数据占一行，包含1个整数num。
-
-输出
-对每组数据，输出num表示为质因数相乘的形式，因子按照从小到大的顺序排序，并换行。
-
-样例
-
-输入
-3
-1
-11
-12
-
-输出
-1
-11
-2*2*3*/
 #include <stdio.h>
 
 int main() {
@@ -28,6 +26,7 @@ int main() {
         int num;
         scanf("%d", &num);
         
+        // 特殊处理1
         if (num == 1) {
             printf("1\n");
             continue;
@@ -37,7 +36,9 @@ int main() {
         int factor = 2;
         int temp = num;
         
+        // 质因数分解
         while (temp > 1) {
+            // 反复整除该因数
             while (temp % factor == 0) {
                 if (!first) {
                     printf("*");
@@ -46,8 +47,20 @@ int main() {
                 first = 0;
                 temp /= factor;
             }
-            factor++;
+            
+            // 下一个可能的质因数
+            factor = (factor == 2) ? 3 : factor + 2;
+            
+            // 优化：如果factor²超过temp，则temp本身是质数
+            if (factor * factor > temp && temp > 1) {
+                if (!first) {
+                    printf("*");
+                }
+                printf("%d", temp);
+                temp = 1;
+            }
         }
+        
         printf("\n");
     }
     

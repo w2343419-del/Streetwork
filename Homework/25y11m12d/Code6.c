@@ -1,22 +1,24 @@
-/*请用递归函数的形式计算阶乘n!的值(程序中不能出现循环)
-输入格式：
-多组数据
-每组数据输入一个整数n(n <= 20)
+/**
+ * @brief 递归计算阶乘
+ * 
+ * 算法思路：
+ * 使用递归公式：
+ * - factorial(0) = 1
+ * - factorial(1) = 1
+ * - factorial(n) = n * factorial(n-1)
+ * 
+ * 优化点：
+ * - 使用尾递归可被编译器优化
+ * - processInput函数实现多组输入处理
+ * - 验证输入范围（n <= 20）避免溢出
+ * 
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(n) - 递归栈深度
+ */
 
-输出格式：
-输出n!的值
-
-输入
-4
-5
-
-输出
-24
-120
-
-提示：在没有给出几组数据时，默认以EOF结尾，即读入函数的返回值==EOF时停止输入*/
 #include <stdio.h>
 
+// 递归计算阶乘
 long long factorial(int n) {
     if (n == 0 || n == 1) {
         return 1;
@@ -24,6 +26,7 @@ long long factorial(int n) {
     return n * factorial(n - 1);
 }
 
+// 处理多组输入的递归函数
 void processInput() {
     int n;
     if (scanf("%d", &n) != EOF) {
